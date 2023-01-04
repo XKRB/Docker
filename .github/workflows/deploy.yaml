@@ -3,28 +3,36 @@ on:
   push:
     branches:
       - main 
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  AWS_REGION: us-east-1
+  APPLICATION_NAME: docker
+  ENVIRONMENT_NAME: Docker-env
+  BUCKET_NAME: elasticbeanstalk-us-east-1-847555796967
   
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t xkrb/docker -f Dockerfile.dev .
-      - run: docker run -e CI=true xkrb/docker npm run test
+      #- run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      #- run: docker build -t xkrb/docker -f Dockerfile.dev .
+      #- run: docker run -e CI=true xkrb/docker npm run test
 
-      - name: Generate deployment package
-        run: zip -r deploy.zip . -x '*.git*'
+      #- name: Generate deployment package
+      #  run: zip -r deploy.zip . -x '*.git*'
  
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v18
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: docker
-          environment_name: Dockergh-env
-          existing_bucket_name: elasticbeanstalk-us-east-1-847555796967
-          region: us-east-1
-          version_label: ${{ github.sha }}
-          deployment_package: deploy.zip
+ #     - name: Deploy to EB
+ #       uses: einaregilsson/beanstalk-deploy@v18
+  #      with:
+   #       aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+   #       aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+    #      application_name: docker
+     #     environment_name: Docker-env
+      #    existing_bucket_name: elasticbeanstalk-us-east-1-847555796967
+       #   region: us-east-1
+        #  version_label: ${{ github.sha }}
+         # deployment_package: deploy.zip
       
