@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: docker login -u "${{ secret.DOCKER_USERNAME }}" -p "${{ secret.DOCKER_PASSWORD }}"
+      - run: docker login -u ${{ secret.DOCKER_USERNAME }} -p ${{ secret.DOCKER_PASSWORD }}
       #- run: docker build -t xkrb/docker -f Dockerfile.dev .
       #- run: docker run -e CI=true xkrb/docker npm run test
 
